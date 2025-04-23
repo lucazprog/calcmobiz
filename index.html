@@ -1,343 +1,418 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CalcMobiz</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #00008b, #97004c, #8a2be2);
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      color: white;
-    }
-    .logo {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .logo img {
-      max-height: 100px;
-    }
-    .card {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: none;
-      color: white;
-    }
-    .card-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-    .price {
-      font-weight: bold;
-      font-size: 1rem;
-    }
-    fieldset {
-      border: 2px solid white;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-    legend {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: white;
-    }
-    .btn-custom {
-      border-radius: 20px;
-      padding: 0.25rem 0.75rem;
-      width: 5rem;
-      font-weight: bold;
-    }
-    .btn-decrement {
-      background-color: #ff4d4d;
-      color: white;
-    }
-    .btn-increment {
-      background-color: #07d24bf1;
-      color: rgb(255, 255, 255);
-    }
-    .form-check-input {
-      transform: scale(1.6);
-      margin-right: 0.5rem;
-      margin-top: 15px;
-    }
-    .form-check-label {
-      color: white;
-      font-size: 1.8rem;
-      margin-left: 1rem;
-      letter-spacing: 1.5px;
-      font-weight: bold;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .total {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-top: 1rem;
-      text-align: center;
-    }
-    .btn-gerar{
-      display: inline-block;
-      margin: 1rem auto;
-      background-color: #00b4f0;
-      color: white;
-      border: none;
-      padding: 0.75rem 2rem;
-      font-size: 1.2rem;
-      border-radius: 30px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcMobiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: auto; /* Enable scrolling for smaller screens if needed */
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #00008b, #97004c, #8a2be2);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .logo img {
+            max-height: 60px; /* Adjusted logo size */
+            border-radius: 100px;
+            border: 1px solid rgb(163, 0, 63);
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: white;
+            margin-bottom: 0.5rem; /* Reduced margin between cards */
+        }
+        .card-title {
+            font-size: 0.75rem; /* Slightly smaller title */
+            font-weight: bold;
+            margin-bottom: 0.2rem;
+        }
+        .price {
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+        fieldset {
+            border: 2px solid white;
+            padding: 0.75rem; /* Reduced padding */
+            border-radius: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        legend {
+            font-size: 1rem; /* Smaller legend */
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        .btn-custom {
+            border-radius: 20px;
+            padding: 0.15rem 0.5rem; /* Smaller button padding */
+            width: 3.5rem; /* Smaller button width */
+            font-weight: bold;
+            font-size: 0.7rem;
+        }
+        .btn-decrement {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        .btn-increment {
+            background-color: #07d24bf1;
+            color: rgb(255, 255, 255);
+        }
+        .form-check-input {
+            transform: scale(1); /* Slightly smaller checkbox */
+            margin-right: 0.3rem;
+        }
+        .form-check-label {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .total {
+            font-size: 1.1rem;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            padding-top: 10px;
+        }
+        .botoes-superior {
+            position: absolute;
+            top: 10px;
+            right: 150px;
+            
+            padding-bottom: 10px;
+        }
+        .btn-gerar, .btn-limpar {
+            display: inline-block;
+            margin: 0.25rem; /* Reduced button margin */
+            border: none;
+            padding: 0.4rem 1rem; /* Smaller button padding */
+            font-size: 0.9rem; /* Smaller button font */
+            border-radius: 10px;
+            border:2px solid rgb(255, 255, 255);
+            
+        }
+        .btn-gerar {
+            
+            background-color: rgba(25, 0, 217, 0.582);
+            color: white;
+            
+        }
+        .btn-gerar:hover {
+          
+            transition: 0.5s;
+            background-color: #002034;
+        }
+        .btn-limpar {
+            
+          
+          background-color: rgba(176, 30, 4, 0.685);
+            color: white;
+        }
+        .btn-limpar:hover {
+            transition: 0.5s;
+            background-color: #791f03;
+        }
+        #modulos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust minmax as needed */
+            gap: 0.5rem; /* Reduced gap between modules */
+        }
+        #totem, #planos {
+            display: grid;
+            gap: 0.5rem;
+        }
 
-    .btn-limpar {
-      display: inline-block;
-      margin: 1rem auto;
-      background-color: #b90000;
-      color: white;
-      border: none;
-      padding: 0.75rem 2rem;
-      font-size: 1.2rem;
-      border-radius: 30px;
+        
 
-    }
-    .btn-limpar:hover{
-      transition: 0.5s;
-      background-color: #791f03;
+        @media (min-width: 992px) {
+            .total {
+                top: 20px;
+                right: 50px;
+            }
+            .botoes-superior {
+                top: 20px;
+                right: 250px;
+            }
 
-    }
+           
+            
+        }
 
-    .btn-gerar:hover {
-      transition: 0.5s;
-      background-color: #0481ce;
-    }
-    #classe1 {
-      margin-bottom: 10%;
-      padding-bottom: 10%;
-      text-align: center;
-    }
-    .img {
-      border-radius: 100px;
-      border: 1px solid rgb(163, 0, 63);
-    }
-  </style>
-</head>
-<body>
-  <div class="container my-4">
-    <div class="logo">
-      <img class="img" src="./img/mobiz.png" alt="Mobiz">
-    </div>
-
-    <fieldset class="mb-4">
-      <legend>Módulos Adicionais</legend>
-      <div class="row row-cols-1 row-cols-md-3 g-4" id="modulos"></div>
-    </fieldset>
-
-    <fieldset class="mb-4">
-      <legend>Totem</legend>
-      <div class="row row-cols-1 row-cols-md-2 g-4" id="totem"></div>
-    </fieldset>
-
-    <fieldset class="mb-4">
-      <legend>Planos</legend>
-      <div class="row row-cols-1 row-cols-md-3 g-4" id="planos"></div>
-    </fieldset>
-
-    <div id="classe1">
-      <div class="total" id="valorTotal">Valor Total: R$ 0,00</div>
-      <button class="btn-gerar" onclick="abrirFormulario()">GERAR</button>
-      <button class="btn-limpar" onclick="limparSelecoes()">LIMPAR</button>
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-white">
-        <div class="modal-header">
-          <h5 class="modal-title" id="formModalLabel">Informações do Cliente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="clienteForm">
-            <div class="mb-3">
-              <label for="nome" class="form-label">Nome</label>
-              <input type="text" class="form-control" id="nome" required>
-            </div>
-            <div class="mb-3">
-              <label for="cpf" class="form-label">CPF/CNPJ</label>
-              <input type="text" class="form-control" id="cpf" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Gerar PDF</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const modulos = [
-      { nome: "1 PDV - Frente de caixa", preco: 29 },
-      { nome: "1 usuário", preco: 10 },
-      { nome: "Relatório Dinâmico", preco: 20 },
-      { nome: "Produção", preco: 49 },
-      { nome: "Hub Delivery", preco: 30 },
-      { nome: "Estoque em Grade", preco: 20 },
-      { nome: "Delivery", preco: 20 },
-      { nome: "Controle de Mesas", preco: 20 },
-      { nome: "Contratos de cartões e outros", preco: 10 },
-      { nome: "Conciliação Bancária", preco: 20 },
-      { nome: "Notas Fiscais Ilimitadas", preco: 49 },
-      { nome: "Facilita NFE", preco: 29 },
-      { nome: "Smart Tef (POS MÓVEL)", preco: 49 },
-      { nome: "Painel de Senha", preco: 29 },
-      { nome: "Cardápio digital Smart", preco: 49 }
-    ];
-
-    const totems = [
-      { nome: "Terminal autoatendimento", preco: 349 },
-      { nome: "TEF Grátis", preco: 0 }
-    ];
-
-    const planos = [
-      { nome: "PRO", preco: 100 },
-      { nome: "IDEAL", preco: 200 },
-      { nome: "START", preco: 300 }
-    ];
-
-    const criarCardComContador = ({ nome, preco }) => {
-      const id = nome.replace(/\s+/g, '-').toLowerCase();
-      return `
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">${nome}</h5>
-              <p class="price">R$ ${preco.toFixed(2)}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <button class="btn btn-decrement btn-custom" onclick="alterarQuantidade('${id}', -1, ${preco})">-</button>
-                <span id="quantidade-${id}">0</span>
-                <button class="btn btn-increment btn-custom" onclick="alterarQuantidade('${id}', 1, ${preco})">+</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    };
-
-    const criarCheckboxPlano = ({ nome, preco }) => {
-      const id = nome.replace(/\s+/g, '-').toLowerCase();
-      return `
-        <div class="col">
-          <div class="form-check mb-3">
-            <input class="form-check-input plano" name="plano" type="radio" value="${preco}" id="${id}" onchange="atualizarTotal()">
-            <label class="form-check-label" for="${id}">
-              ${nome} - <span class="price">R$ ${preco.toFixed(2)}</span>
-            </label>
-          </div>
-        </div>
-      `;
-    };
-
-    function alterarQuantidade(id, delta) {
-      const span = document.getElementById(`quantidade-${id}`);
-      let atual = parseInt(span.innerText);
-      atual = Math.max(0, atual + delta);
-      span.innerText = atual;
-      atualizarTotal();
-    }
-
-    function atualizarTotal() {
-      let total = 0;
-      [...modulos, ...totems].forEach(({ nome, preco }) => {
-        const id = nome.replace(/\s+/g, '-').toLowerCase();
-        const qtd = parseInt(document.getElementById(`quantidade-${id}`).innerText);
-        total += qtd * preco;
-      });
-
-      const planoSelecionado = document.querySelector('input[name="plano"]:checked');
-      if (planoSelecionado) {
-        total += parseFloat(planoSelecionado.value);
+        @media screen and (max-width:1024px){
+          .botoes-superior{
+            right: 200px;
+          }
       }
 
-      document.getElementById('valorTotal').innerText = `Valor Total: R$ ${total.toFixed(2)}`;
-      return total;
-    }
 
-    function abrirFormulario() {
-      new bootstrap.Modal(document.getElementById('formModal')).show();
-    }
+        @media screen and (max-width:900px){
+          .btn-gerar, .btn-limpar {
+            
 
-    document.getElementById('clienteForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+            
+        
+           
 
-      const nome = document.getElementById('nome').value;
-      const cpf = document.getElementById('cpf').value;
-      const email = document.getElementById('email').value;
-      const planoSelecionado = document.querySelector('input[name="plano"]:checked');
-      const plano = planoSelecionado ? planoSelecionado.nextElementSibling.innerText : "Nenhum plano";
-      const data = new Date().toLocaleString();
-
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      let y = 20;
-
-      doc.text("Resumo do Plano de Assinatura", 20, y);
-      y += 10;
-      doc.text(`Nome: ${nome}`, 20, y);
-      y += 10;
-      doc.text(`CPF/CNPJ: ${cpf}`, 20, y);
-      y += 10;
-      doc.text(`Email: ${email}`, 20, y);
-      y += 10;
-      doc.text(`Data: ${data}`, 20, y);
-      y += 10;
-      doc.text(`Plano: ${plano}`, 20, y);
-      y += 10;
-
-      doc.text("Itens Selecionados:", 20, y);
-      y += 10;
-
-      [...modulos, ...totems].forEach(({ nome, preco }) => {
-        const id = nome.replace(/\s+/g, '-').toLowerCase();
-        const qtd = parseInt(document.getElementById(`quantidade-${id}`).innerText);
-        if (qtd > 0) {
-          doc.text(`${qtd}x ${nome} - R$ ${(preco * qtd).toFixed(2)}`, 20, y);
-          y += 10;
         }
-      });
 
-      const total = atualizarTotal();
-      y += 10;
-      doc.text(`Valor Total: R$ ${total.toFixed(2)}`, 20, y);
+        .botoes-superior {
+          position: absolute;
+          
+          right: 200px;
+          padding-bottom: 10px;
+      }
 
-      doc.save("plano-assinatura.pdf");
-      bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
+      }
 
-      limparSelecoes();
-    });
+      @media screen and (max-width:460px){
+        .btn-gerar, .btn-limpar {
+          
+          font-size: 3px;
+          
+      
+         
 
-    function limparSelecoes() {
-      [...modulos, ...totems].forEach(({ nome }) => {
-        const id = nome.replace(/\s+/g, '-').toLowerCase();
-        document.getElementById(`quantidade-${id}`).innerText = "0";
-      });
-      document.querySelectorAll('input[name="plano"]').forEach(r => r.checked = false);
-      document.getElementById('clienteForm').reset();
-      atualizarTotal();
+      }
+      img{
+        display: none;
+      }
+
+      .botoes-superior {
+        position: relative;
+        right: 180px;
+        top: 15px;
     }
 
-    document.getElementById('modulos').innerHTML = modulos.map(criarCardComContador).join('');
-    document.getElementById('totem').innerHTML = totems.map(criarCardComContador).join('');
-    document.getElementById('planos').innerHTML = planos.map(criarCheckboxPlano).join('');
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    }
+
+       
+        /* Modal adjustments */
+        .modal-title {
+            font-size: 1rem;
+        }
+        .modal-body label {
+            font-size: 0.9rem;
+        }
+        .modal-body input {
+            font-size: 0.9rem;
+        }
+        .modal-body button {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-3 position-relative">
+        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+            <div class="logo mb-2">
+                <img src="./img/mobiz.png" alt="Mobiz">
+            </div>
+            <div class="botoes-superior">
+                <button class="btn-gerar" onclick="abrirFormulario()">GERAR</button>
+                <button class="btn-limpar" onclick="limparSelecoes()">LIMPAR</button>
+            </div>
+            <div class="total" id="valorTotal">Valor Total: R$ 0,00</div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-12 col-lg-6">
+                <fieldset>
+                    <legend>Módulos Adicionais</legend>
+                    <div id="modulos"></div>
+                </fieldset>
+            </div>
+            <div class="col-12 col-lg-3">
+                <fieldset class="h-auto">
+                    <legend>Totem</legend>
+                    <div id="totem"></div>
+                </fieldset>
+            </div>
+            <div class="col-12 col-lg-3">
+                <fieldset class="h-auto">
+                    <legend>Planos</legend>
+                    <div id="planos"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModalLabel">Informações do Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="clienteForm">
+                        <div class="mb-2">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control form-control-sm" id="nome" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="cpf" class="form-label">CPF/CNPJ</label>
+                            <input type="text" class="form-control form-control-sm" id="cpf" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control form-control-sm" id="email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 btn-sm">Gerar PDF</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modulos = [
+            { nome: "1 PDV - Frente de caixa", preco: 29 },
+            { nome: "1 usuário", preco: 10 },
+            { nome: "Relatório Dinâmico", preco: 20 },
+            { nome: "Produção", preco: 49 },
+            { nome: "Hub Delivery", preco: 30 },
+            { nome: "Estoque em Grade", preco: 20 },
+            { nome: "Delivery", preco: 20 },
+            { nome: "Controle de Mesas", preco: 20 },
+            { nome: "Contratos de cartões e outros", preco: 10 },
+            { nome: "Conciliação Bancária", preco: 20 },
+            { nome: "Notas Fiscais Ilimitadas", preco: 49 },
+            { nome: "Facilita NFE", preco: 29 },
+            { nome: "Smart Tef (POS MÓVEL)", preco: 49 },
+            { nome: "Painel de Senha", preco: 29 },
+            { nome: "Cardápio digital Smart", preco: 49 }
+        ];
+        const totems = [
+            { nome: "Terminal autoatendimento", preco: 349 },
+            { nome: "TEF Grátis", preco: 0 }
+        ];
+        const planos = [
+            { nome: "PRO", preco: 497 },
+            { nome: "IDEAL", preco: 298 },
+            { nome: "START", preco: 189 }
+        ];
+
+        const criarCardComContador = ({ nome, preco }) => {
+            const id = nome.replace(/\s+/g, '-').toLowerCase();
+            return `
+                <div class="card h-100">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1">${nome}</h6>
+                        <p class="price mb-1">R$ ${preco.toFixed(2)}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-decrement btn-custom" onclick="alterarQuantidade('${id}', -1)">-</button>
+                            <span id="quantidade-${id}">0</span>
+                            <button class="btn btn-increment btn-custom" onclick="alterarQuantidade('${id}', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        const criarCheckboxPlano = ({ nome, preco }) => {
+            const id = nome.replace(/\s+/g, '-').toLowerCase();
+            return `
+                <div class="form-check mb-2">
+                    <input class="form-check-input plano" name="plano" type="radio" value="${preco}" id="${id}" onchange="atualizarTotal()">
+                    <label class="form-check-label" for="${id}">
+                        ${nome} - <span class="price">R$ ${preco.toFixed(2)}</span>
+                    </label>
+                </div>
+            `;
+        };
+
+        function alterarQuantidade(id, delta) {
+            const span = document.getElementById(`quantidade-${id}`);
+            let atual = parseInt(span.innerText);
+            atual = Math.max(0, atual + delta);
+            span.innerText = atual;
+            atualizarTotal();
+        }
+
+        function atualizarTotal() {
+            let total = 0;
+            [...modulos, ...totems].forEach(({ nome, preco }) => {
+                const id = nome.replace(/\s+/g, '-').toLowerCase();
+                const qtd = parseInt(document.getElementById(`quantidade-${id}`).innerText);
+                total += qtd * preco;
+            });
+            const planoSelecionado = document.querySelector('input[name="plano"]:checked');
+            if (planoSelecionado) {
+                total += parseFloat(planoSelecionado.value);
+            }
+            document.getElementById('valorTotal').innerText = `Valor Total: R$ ${total.toFixed(2)}`;
+            return total;
+        }
+
+        function abrirFormulario() {
+            new bootstrap.Modal(document.getElementById('formModal')).show();
+        }
+
+        document.getElementById('clienteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('nome').value;
+            const cpf = document.getElementById('cpf').value;
+            const email = document.getElementById('email').value;
+            const planoSelecionado = document.querySelector('input[name="plano"]:checked');
+            const plano = planoSelecionado ? planoSelecionado.nextElementSibling.innerText : "Nenhum plano";
+            const data = new Date().toLocaleString();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            let y = 20;
+            doc.setFontSize(14);
+            doc.text("Resumo do Plano de Assinatura", 20, y); y += 10;
+            doc.setFontSize(12);
+            doc.text(`Nome: ${nome}`, 20, y); y += 8;
+            doc.text(`CPF/CNPJ: ${cpf}`, 20, y); y += 8;
+            doc.text(`Email: ${email}`, 20, y); y += 8;
+            doc.text(`Data: ${data}`, 20, y); y += 8;
+            doc.text(`Plano: ${plano}`, 20, y); y += 10;
+            doc.text("Itens Selecionados:", 20, y); y += 8;
+
+            [...modulos, ...totems].forEach(({ nome, preco }) => {
+                const id = nome.replace(/\s+/g, '-').toLowerCase();
+                const qtd = parseInt(document.getElementById(`quantidade-${id}`).innerText);
+                if (qtd > 0) {
+                    doc.text(`${qtd}x ${nome} - R$ ${(preco * qtd).toFixed(2)}`, 25, y);
+                    y += 6;
+                }
+            });
+
+            const total = atualizarTotal();
+            y += 10;
+            doc.setFontSize(14);
+            doc.text(`Valor Total: R$ ${total.toFixed(2)}`, 20, y);
+
+            doc.save("plano-assinatura.pdf");
+            bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
+            limparSelecoes();
+        });
+
+        function limparSelecoes() {
+            [...modulos, ...totems].forEach(({ nome }) => {
+                const id = nome.replace(/\s+/g, '-').toLowerCase();
+                document.getElementById(`quantidade-${id}`).innerText = "0";
+            });
+            document.querySelectorAll('input[name="plano"]').forEach(r => r.checked = false);
+            document.getElementById('clienteForm').reset();
+            atualizarTotal();
+        }
+
+        document.getElementById('modulos').innerHTML = modulos.map(criarCardComContador).join('');
+        document.getElementById('totem').innerHTML = totems.map(criarCardComContador).join('');
+        document.getElementById('planos').innerHTML = planos.map(criarCheckboxPlano).join('');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
